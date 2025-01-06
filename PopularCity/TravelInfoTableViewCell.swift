@@ -36,23 +36,29 @@ class TravelInfoTableViewCell: UITableViewCell {
     }
     
     private func  configure() {
-        cityNameLabel.textColor = .white
         cityNameLabel.font = .boldSystemFont(ofSize: 16)
         cityNameLabel.textAlignment = .right
         
         
         cityImageView.contentMode = .scaleAspectFill
+
+        
+        explainView.backgroundColor = .black
+        explainView.layer.opacity = 0.5
+        
+        //궁금한게 있습니다. 스토리보드 자체에서 opacity를 설정하면 아래 계층에 Layer에는 영향을 주지 않는데,
+        //왜 코드로 작성하면 영향을 받을까요? 코드로 수정한 경우 아래 계층에 Layer도 함께 투명하게 보입니다..
+        
+  
         explainLabel.textColor = .white
         explainLabel.font = .systemFont(ofSize: 12)
         
-        explainView.alpha = 0.5
-        explainView.backgroundColor = .black
     }
     
     func configData(_ row: City, segNum: Int) {
         
         cityNameLabel.text = "\(row.city_name) | \(row.city_english_name)"
-        
+        cityNameLabel.textColor = .white
         
         if segNum == 0 {
             let url = URL(string: row.city_image)

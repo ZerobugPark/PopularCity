@@ -25,6 +25,7 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         tableView.register(nib, forCellReuseIdentifier: TravelInfoTableViewCell.identifier)
         
         textField.delegate = self
+        tableView.keyboardDismissMode = .onDrag
         segmentControlSetup()
         filterCity()
         
@@ -71,7 +72,11 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
             let stringWithoutSpaces = text.replacingOccurrences(of: " ", with: "")
             if seg.selectedSegmentIndex == 0 {
                 for i in 0..<cityInfo.count {
-                    if cityInfo[i].city_name == stringWithoutSpaces || cityInfo[i].city_explain == stringWithoutSpaces || cityInfo[i].city_english_name.uppercased() == stringWithoutSpaces.uppercased() {
+                    var components = cityInfo[i].city_explain.components(separatedBy: ",")
+                    for j in 0..<components.count{
+                        components[j] = components[j].trimmingCharacters(in: .whitespaces)
+                    }
+                    if cityInfo[i].city_name == stringWithoutSpaces || cityInfo[i].city_english_name.uppercased() == stringWithoutSpaces.uppercased() || components.contains(stringWithoutSpaces) {
                         if data.count != 0 {
                             data.removeAll()
                         }
@@ -87,7 +92,11 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
                 present(alert,animated: true)
             } else if seg.selectedSegmentIndex == 1 {
                 for i in 0..<domestic.count {
-                    if domestic[i].city_name == stringWithoutSpaces || domestic[i].city_explain == stringWithoutSpaces || domestic[i].city_english_name.uppercased() == stringWithoutSpaces.uppercased() {
+                    var components = domestic[i].city_explain.components(separatedBy: ",")
+                    for j in 0..<components.count{
+                        components[j] = components[j].trimmingCharacters(in: .whitespaces)
+                    }
+                    if domestic[i].city_name == stringWithoutSpaces || domestic[i].city_english_name.uppercased() == stringWithoutSpaces.uppercased() || components.contains(stringWithoutSpaces){
                         if data.count != 0 {
                             data.removeAll()
                         }
@@ -102,31 +111,31 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
                 alert.addAction(ok)
                 present(alert,animated: true)
             }
-         else  {
-            for i in 0..<international.count {
-                if international[i].city_name == stringWithoutSpaces || international[i].city_explain == stringWithoutSpaces || international[i].city_english_name.uppercased() == stringWithoutSpaces.uppercased() {
-                    if data.count != 0 {
-                        data.removeAll()
+            else  {
+                for i in 0..<international.count {
+                    var components = international[i].city_explain.components(separatedBy: ",")
+                    for j in 0..<components.count{
+                        components[j] = components[j].trimmingCharacters(in: .whitespaces)
                     }
-                    data.append(international[i])
-                    return
+                    if international[i].city_name == stringWithoutSpaces || international[i].city_english_name.uppercased() == stringWithoutSpaces.uppercased() || components.contains(stringWithoutSpaces) {
+                        if data.count != 0 {
+                            data.removeAll()
+                        }
+                        data.append(international[i])
+                        return
+                    }
                 }
+                textField.text = ""
+                let alert = UIAlertController(title: "알림", message: "찾으시는 항목이 없습니다", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "확인", style: .default)
+                
+                alert.addAction(ok)
+                present(alert,animated: true)
             }
-            textField.text = ""
-            let alert = UIAlertController(title: "알림", message: "찾으시는 항목이 없습니다", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "확인", style: .default)
-            
-            alert.addAction(ok)
-            present(alert,animated: true)
         }
+        
     }
     
-}
-
-    
-
-
- 
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -141,14 +150,14 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         } else  {
             return international.count
         }
-       
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-  
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: TravelInfoTableViewCell.identifier, for: indexPath) as! TravelInfoTableViewCell
-            
+        
         
         var row: City
         
@@ -168,10 +177,10 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         }
         
         
-        
+        textField.text = ""
         
         return cell
-
+        
         
         
     }
@@ -183,7 +192,7 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
     
     
     
-
+    
     
     @IBAction func segmentedControlSelected(_ sender: UISegmentedControl) {
         
@@ -194,5 +203,5 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
     
     
     
-
+    
 }
