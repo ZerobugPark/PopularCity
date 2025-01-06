@@ -64,7 +64,7 @@ class TravelInfoTableViewCell: UITableViewCell {
     
     func configData(_ row: City, segNum: Int) {
         
-        cityNameLabel.text = "\(row.city_name) | \(row.city_english_name)"
+        cityNameLabel.text = row.title
         cityNameLabel.textColor = .white
         
         if segNum == 0 {
