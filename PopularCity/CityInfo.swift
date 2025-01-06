@@ -5,7 +5,18 @@
 //
 
 import Foundation
- 
+
+
+struct City {
+    let city_name: String
+    let city_english_name: String
+    let city_explain: String
+    let city_image: String
+    let domestic_travel: Bool
+}
+
+
+
 struct CityInfo {
     let city: [City] = [
         City(city_name: "방콕", city_english_name: "Bangkok", city_explain: "방콕, 파타야, 후아힌, 코사멧, 코사무이", city_image: "https://images.unsplash.com/photo-1716872491897-078d9b89be49?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", domestic_travel: false),
