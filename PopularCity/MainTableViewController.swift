@@ -26,6 +26,8 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         
         textField.delegate = self
         tableView.keyboardDismissMode = .onDrag
+        
+        view.backgroundColor = .white
         segmentControlSetup()
         filterCity()
         

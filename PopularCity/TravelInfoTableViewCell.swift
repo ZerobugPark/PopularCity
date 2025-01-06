@@ -26,6 +26,7 @@ class TravelInfoTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        contentView.backgroundColor = .white
         configure()
     }
     
@@ -42,6 +43,9 @@ class TravelInfoTableViewCell: UITableViewCell {
         
         cityImageView.contentMode = .scaleAspectFill
 
+        cityImageView.clipsToBounds = true
+        cityImageView.layer.cornerRadius = 30
+        cityImageView.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMaxYCorner)
         
         explainView.backgroundColor = .black
         explainView.layer.opacity = 0.5
@@ -49,6 +53,9 @@ class TravelInfoTableViewCell: UITableViewCell {
         //궁금한게 있습니다. 스토리보드 자체에서 opacity를 설정하면 아래 계층에 Layer에는 영향을 주지 않는데,
         //왜 코드로 작성하면 영향을 받을까요? 코드로 수정한 경우 아래 계층에 Layer도 함께 투명하게 보입니다..
         
+        explainView.clipsToBounds = true
+        explainView.layer.cornerRadius = 30
+        explainView.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMaxXMaxYCorner)
   
         explainLabel.textColor = .white
         explainLabel.font = .systemFont(ofSize: 12)
