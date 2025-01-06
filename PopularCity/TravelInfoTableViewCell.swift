@@ -90,7 +90,7 @@ class TravelInfoTableViewCell: UITableViewCell {
     }
     
     func serachTravelData(data: City) {
-        cityNameLabel.text = "\(data.city_name) | \(data.city_english_name)"
+        cityNameLabel.text = data.title 
         cityNameLabel.textColor = .red
         let url = URL(string: data.city_image)
         cityImageView.kf.setImage(with: url)
