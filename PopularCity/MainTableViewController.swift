@@ -16,6 +16,7 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
     var data: [City] = []
     
     var cityFilter: [City] = []
+    var isOn: Bool = false
     
     @IBOutlet var textField: UITextField!
     
@@ -33,6 +34,8 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         view.backgroundColor = .white
         segmentControlSetup()
         //filterCity()
+        
+
         
     }
     
@@ -63,16 +66,17 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         view.endEditing(true)
         return true
     }
+
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
+    @IBAction func textFieldDidChagne(_ sender: UITextField) {
+        //print("실시간 입력값: \(textField.text ?? "")") // 바로 업데이트된 값 확인
         searchCity()
-        //searchDate()
-        if textField.text?.count != 0 {
+        if isOn {
             tableView.reloadData()
         }
-        
     }
+    
+    
     
     func searchCity() {
         if let text = textField.text {
@@ -86,18 +90,13 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
                     if data.count != 0 {
                         data.removeAll()
                     }
+                    isOn = true
                     data.append(cityFilter[i])
                     return
                 }
 
             }
         }
-        textField.text = ""
-        let alert = UIAlertController(title: "알림", message: "찾으시는 항목이 없습니다", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "확인", style: .default)
-        
-        alert.addAction(ok)
-        present(alert,animated: true)
     }
     
     
@@ -173,7 +172,7 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if textField.text?.count != 0 {
+        if isOn {
             return 1
         }
         
@@ -204,8 +203,9 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         }
         
         
-        if textField.text?.count != 0 {
+        if isOn {
             cell.serachTravelData(data: data[0])
+            isOn = false
         } else {
             cell.configData(row, segNum: seg.selectedSegmentIndex)
         }
