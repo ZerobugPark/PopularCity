@@ -8,7 +8,7 @@
 import UIKit
 
 
-class GameViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, ObjectSetup {
+class GameViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, ObjectSetup {
  
  
 
@@ -29,6 +29,7 @@ class GameViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         
         pickerView.delegate = self
         pickerView.dataSource = self
+        inputTextField.delegate = self
         
         Setup()
         
@@ -66,6 +67,11 @@ class GameViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         presentTextView.font = .systemFont(ofSize: 16)
         presentTextView.layer.borderColor = UIColor.lightGray.cgColor
         presentTextView.layer.borderWidth = 1
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return true
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
