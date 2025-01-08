@@ -76,8 +76,7 @@ class MainTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
-    
-    
+
     func searchCity() {
         if let text = textField.text {
             let stringWithoutSpaces = text.replacingOccurrences(of: " ", with: "")

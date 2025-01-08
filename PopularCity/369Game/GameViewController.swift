@@ -7,23 +7,55 @@
 
 import UIKit
 
-class GameViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+class GameViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+ 
 
-        // Do any additional setup after loading the view.
-    }
+    @IBOutlet var testTexField: UITextField!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var inputTextField: UITextField!
+
+    @IBOutlet var presentTextView: UITextView!
+     
+    let pickerView = UIPickerView()
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    var numbers: [Int] = []
+    var result: [Any] = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        
+        inputTextField.inputView = pickerView
+        
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        
+       
+        
+        numbers = Array(1...100).reversed()
+      
     }
-    */
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        
+        return String(numbers[row])
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        //print(numbers)
+        return numbers.count
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        print(row)
+    }
+
 
 }
