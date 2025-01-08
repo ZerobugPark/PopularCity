@@ -21,21 +21,8 @@
                                 <rect key="frame" x="0.0" y="159" width="393" height="659"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RUy-aZ-Cil">
-                                <rect key="frame" x="131" y="85" width="131" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="First"/>
-                                    <segment title="Second"/>
-                                    <segment title=""/>
-                                </segments>
-                                <connections>
-                                    <action selector="testSeg:" destination="Y6W-OH-hqX" eventType="valueChanged" id="rRN-cT-TTD"/>
-                                </connections>
-                            </segmentedControl>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l4C-2p-NPE">
-                                <rect key="frame" x="287" y="83" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l4C-2p-NPE">
+                                <rect key="frame" x="159" y="83" width="75" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                 <connections>
@@ -48,13 +35,17 @@
                         <constraints>
                             <constraint firstItem="hVW-ha-qBS" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="100" id="9Za-fP-dEw"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="hVW-ha-qBS" secondAttribute="bottom" id="HnM-T5-EQ4"/>
+                            <constraint firstItem="l4C-2p-NPE" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="24" id="Qqx-Lg-2Y2"/>
+                            <constraint firstItem="l4C-2p-NPE" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="Sxs-gR-gq7"/>
+                            <constraint firstItem="l4C-2p-NPE" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="159" id="eOr-0p-h1W"/>
                             <constraint firstItem="hVW-ha-qBS" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="nte-Y9-eTG"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="l4C-2p-NPE" secondAttribute="trailing" constant="159" id="pXi-I0-743"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="hVW-ha-qBS" secondAttribute="trailing" id="sLA-Gg-F6A"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="filterBtn" destination="l4C-2p-NPE" id="8Rh-8n-cYb"/>
                         <outlet property="mapView" destination="hVW-ha-qBS" id="l4S-pf-5qA"/>
-                        <outlet property="seg" destination="RUy-aZ-Cil" id="icM-5G-yqC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

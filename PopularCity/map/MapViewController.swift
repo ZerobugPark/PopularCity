@@ -8,39 +8,50 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, MKMapViewDelegate {
-    
+class MapViewController: UIViewController, MKMapViewDelegate, ObjectSetup {
+
     
     @IBOutlet var mapView: MKMapView!
     
     
+    @IBOutlet var filterBtn: UIButton!
     
-    @IBOutlet var seg: UISegmentedControl!
     var annotations: [MKPointAnnotation] = []
-    let emptyList = RestaurantList().restaurantArray
+    let originRestaurantData = RestaurantList().restaurantArray
     var restaurantList: [Restaurant] = []
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         mapView.delegate = self
         
-        restaurantList = emptyList
-        configureMapView()
-        let title: [String] = ["모두", "국내", "해외"]
-        for i in 0...2{
-            seg.setTitle(title[i], forSegmentAt: i)
-        }
-        seg.selectedSegmentIndex = 0
+        restaurantList = originRestaurantData
+        
+        Setup()
+
         
     }
     
+    func Setup() {
+        configureMapView()
+        buttonConfig()
+        
+    }
+    
+    func buttonConfig() {
+        let title = "Filter"
+        filterBtn.setTitle(title, for: .normal)
+        filterBtn.setTitleColor(.white, for: .normal)
+        filterBtn.layer.cornerRadius = 10
+        filterBtn.backgroundColor = .lightGray
+        
+    }
     
     func configureMapView() {
         
+        var centerLatitude:Double = 0
+        var centerLongitude:Double = 0
         
         for i in 0..<restaurantList.count {
             let latitude = restaurantList[i].latitude
@@ -49,72 +60,47 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let annotation = MKPointAnnotation()
             annotation.coordinate = center
             annotation.title = restaurantList[i].name
-            mapView.region = MKCoordinateRegion(center: center, latitudinalMeters: 210, longitudinalMeters: 210)
+            centerLatitude += latitude
+            centerLongitude += longitude
             annotations.append(annotation)
             
         }
-        
-        
+        centerLatitude = centerLatitude / Double(restaurantList.count)
+        centerLongitude = centerLongitude  / Double(restaurantList.count)
+        let center = CLLocationCoordinate2D(latitude: centerLatitude, longitude: centerLongitude)
+        mapView.region = MKCoordinateRegion(center: center, latitudinalMeters: 200, longitudinalMeters: 200)
         mapView.addAnnotations(annotations)
-        mapView.showsUserLocation = true
         
     }
     
     
-    
-    @IBAction func testSeg(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            restaurantList = emptyList
-            print("1")
-        case 1:
-            restaurantList = emptyList.filter {$0.category == "양식"}
-            print("2")
-        default:
-            restaurantList = emptyList.filter {$0.category == "한식"}
-            print("3")
-            
-        }
-        
-        
-        mapView.removeAnnotations(annotations)
-        annotations.removeAll()
-        configureMapView()
-        
-    }
-    
+
     @IBAction func filterBtnTapped(_ sender: UIButton) {
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        
-        
-        
-        let test1 = UIAlertAction(title: "전체", style: .default, handler: { (ACTION:UIAlertAction) in
-            self.restaurantList = self.emptyList
-            self.mapView.removeAnnotations(self.annotations)
-            self.annotations.removeAll()
-            self.configureMapView()
-        })
-        let test2 = UIAlertAction(title: "한식", style: .default, handler:{ (ACTION:UIAlertAction) in
-            self.restaurantList = self.emptyList.filter {$0.category == "한식"}
-            self.mapView.removeAnnotations(self.annotations)
-            self.annotations.removeAll()
-            self.configureMapView()
-        })
-        let test3 = UIAlertAction(title: "양식", style: .default, handler: { (ACTION:UIAlertAction) in
-            self.restaurantList = self.emptyList.filter {$0.category == "양식"}
-            self.mapView.removeAnnotations(self.annotations)
-            self.annotations.removeAll()
-            self.configureMapView()
-        })
+
+        let restaurants = UIAlertAction(title: "전체", style: .default, handler: { _ in self.filterCategory(category: nil) })
+        let koreanFood = UIAlertAction(title: "한식", style: .default, handler:{ _ in self.filterCategory(category: "한식") })
+        let westernFood = UIAlertAction(title: "양식", style: .default, handler: { _ in self.filterCategory(category: "양식") })
         let ok = UIAlertAction(title: "확인", style: .cancel)
         
-        alert.addAction(test1)
-        alert.addAction(test2)
-        alert.addAction(test3)
+        alert.addAction(restaurants)
+        alert.addAction(koreanFood)
+        alert.addAction(westernFood)
         alert.addAction(ok)
         
         present(alert, animated: true)
+    }
+    
+    private func filterCategory(category: String?) {
+        if let category = category {
+            restaurantList = originRestaurantData.filter {$0.category == category}
+        } else {
+            restaurantList = originRestaurantData
+        }
+            
+        mapView.removeAnnotations(annotations)
+        annotations.removeAll()
+        configureMapView()
     }
 }

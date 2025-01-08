@@ -14,5 +14,6 @@ protocol ObjectSetup {
     @objc optional func textFieldConfig()
     @objc optional func imageViewConfig()
     @objc optional func textViewConfig()
+    @objc optional func buttonConfig()
     
 }
