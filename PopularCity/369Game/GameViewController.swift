@@ -8,43 +8,72 @@
 import UIKit
 
 
-class GameViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class GameViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, ObjectSetup {
+ 
  
 
-    @IBOutlet var testTexField: UITextField!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var inputTextField: UITextField!
 
     @IBOutlet var presentTextView: UITextView!
      
+    @IBOutlet var resultLabel: UILabel!
+    
     let pickerView = UIPickerView()
     
-
-    
     var numbers: [Int] = []
-    var result: [Any] = []
+    var resultArray: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        inputTextField.inputView = pickerView
-        
         pickerView.delegate = self
         pickerView.dataSource = self
         
-       
+        Setup()
         
-        numbers = Array(1...100).reversed()
+        numbers = Array(1...1000).reversed()
       
     }
+    
+    func Setup() {
+        labelConfig()
+        textFieldConfig()
+        textViewConfig()
+    }
+    
+    
+    func labelConfig() {
+        let title = "369 게임"
+        titleLabel.text = title
+        titleLabel.font = .boldSystemFont(ofSize: 30)
+        titleLabel.textAlignment = .center
+        
+        resultLabel.font = .boldSystemFont(ofSize: 24)
+        resultLabel.textAlignment = .center
+        resultLabel.numberOfLines = 0
+        
+    }
+    func textFieldConfig() {
+        
+        let placeholder = "최대 숫자를 선택해주세요."
+        inputTextField.placeholder = placeholder
+        inputTextField.inputView = pickerView
+        
+    }
+    func textViewConfig() {
+        presentTextView.isEditable = false
+        presentTextView.font = .systemFont(ofSize: 16)
+        presentTextView.layer.borderColor = UIColor.lightGray.cgColor
+        presentTextView.layer.borderWidth = 1
+    }
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
         return String(numbers[row])
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        //print(numbers)
         return numbers.count
     }
     
@@ -54,8 +83,39 @@ class GameViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        print(row)
+        var num = row
+        num = numbers.count - row
+        checkClap(inputNum: num)
+
     }
 
+    private func checkClap(inputNum: Int) {
+        
+        var clapCnt = 0
+        
+        for i in 1...inputNum {
+            var temp = i
+            var cnt = 0
+            while (temp > 0) {
+
+                if temp % 10 == 3 || temp % 10 == 6 || temp % 10 == 9 {
+       
+                    cnt += 1
+                }
+                temp /=  10
+            }
+            if cnt > 0 {
+                resultArray.append(String(repeating: "👏", count: cnt))
+                clapCnt += cnt
+            } else {
+                resultArray.append(String(i))
+            }
+            
+        }
+        let str = resultArray.joined(separator: ", ")
+        presentTextView.text = str
+        resultArray.removeAll()
+        resultLabel.text = "숫자 \(inputNum)까지 총 박수는 \n\(clapCnt)입니다"
+    }
 
 }
